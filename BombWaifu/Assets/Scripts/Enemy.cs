@@ -5,8 +5,9 @@ using UnityEngine;
 public class Enemy : Fighter
 {
     private Fighter player;
+    private bool isAlive = true;
 
-    Enemy(float newMaxHealth, int newBaseAttack)
+    public Enemy(float newMaxHealth, float newBaseAttack)
     {
         maxHealth = newMaxHealth;
         health = maxHealth;
@@ -48,5 +49,22 @@ public class Enemy : Fighter
     {
         ModifyAttack(1.1f);
         Attack((attackModifier * baseAttack), player);
+    }
+
+    //Getters
+    public float GetHealth()
+    {
+        return health;
+    }
+
+    public float GetBaseAttack()
+    {
+        return baseAttack;
+    }
+
+    //Setters
+    public void SetPlayer(Fighter p)
+    {
+        player = p;
     }
 }

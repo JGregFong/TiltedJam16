@@ -6,7 +6,7 @@ public abstract class Fighter
 {
     protected float health;
     protected float maxHealth;
-    protected int baseAttack;
+    protected float baseAttack;
     protected float attackModifier;
 
     public void Attack(float dmg, Fighter opponent) {
