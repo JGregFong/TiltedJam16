@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class Fighter
 {
-    float health;
+    protected float health;
     protected float maxHealth;
     protected int baseAttack;
-    float attackModifier;
+    protected float attackModifier;
 
     public void Attack(float dmg, Fighter opponent) {
         opponent.TakeDamage(dmg);
