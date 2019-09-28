@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class Fighter
 {
     float health;
-    float maxHealth;
-    int baseAttack;
+    protected float maxHealth;
+    protected int baseAttack;
     float attackModifier;
 
     public void Attack(float dmg, Fighter opponent) {
