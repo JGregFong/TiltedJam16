@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Fighter
 {
     float health;
+    float maxHealth;
     int baseAttack;
     float attackModifier;
 
