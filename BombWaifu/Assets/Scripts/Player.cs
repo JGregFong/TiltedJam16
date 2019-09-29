@@ -17,7 +17,6 @@ public class Player : Fighter
 
     public void AttackOne()
     {
-        ModifyAttack(1);
         Attack((attackModifier * baseAttack), enemy);
     }
 
@@ -48,5 +47,10 @@ public class Player : Fighter
     public void SetEnemy(Fighter e)
     {
         enemy = e;
+    }
+
+    public void SetAttackModifier(float m)
+    {
+        attackModifier += m;
     }
 }

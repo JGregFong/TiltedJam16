@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private List<Fighter> turnOrder = new List<Fighter>();
+    public int scene;
     public float playerHealth = 100;
     public float playerAttackPower = 20;
     public float enemyHealth = 100;
@@ -16,6 +18,15 @@ public class GameManager : MonoBehaviour
     public HealthBar playerHealthBar;
     public HealthBar enemyHealthBar;
     public Text dialog;
+    private bool invincible;
+    private bool invincibilityUsed = false;
+    public GameObject playerAttackSound;
+    public GameObject enemyAttackSound;
+    public GameObject battleMusic;
+    public GameObject victoryMusic;
+    public GameObject lossMusic;
+    public GameObject invincibleSound;
+    public GameObject buffSound;
 
     private void Start()
     {
@@ -35,6 +46,25 @@ public class GameManager : MonoBehaviour
             turnOrder.Add(player);
         }
 
+        StartCoroutine(Introductions());
+    }
+
+    private IEnumerator Introductions()
+    {
+        if (scene == 1)
+        {
+            dialog.text = "You like sodas? ‘Cus I’d love to “mount n’ dew” you!";
+        }
+        else if (scene == 2)
+        {
+            dialog.text = "Mom was wrong! This legal name change was worth it and now I’m invincible!";
+        }
+        else if (scene == 3)
+        {
+            dialog.text = "Baby, you’d look real good in my jet right about now.";
+        }
+
+        yield return new WaitForSeconds(3.0f);
         StartGame();
     }
 
@@ -49,7 +79,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            dialog.text = "Player's turn.";
+            dialog.text = "Bombshell Waifu's turn.";
             Player curPlayer = (Player) currentFighter;
             curPlayer.SetEnemy(enemy);
             DisplayButtons();
@@ -64,9 +94,19 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2.0f);
             Enemy curEnemy = (Enemy)currentFighter;
             curEnemy.SetPlayer(player);
-            dialog.text = "Enemy attacks player.";
-            yield return new WaitForSeconds(2.0f);
-            curEnemy.EnemyAttack();
+            if (invincible == false)
+            {
+                dialog.text = "Enemy attacks Bombshell Waifu.";
+                yield return new WaitForSeconds(2.0f);
+                Instantiate(enemyAttackSound);
+                curEnemy.EnemyAttack();
+            }
+            else
+            {
+                dialog.text = "Enemy cannot attack because Bombshell Waifu is invincible!";
+                yield return new WaitForSeconds(2.0f);
+                invincible = false;
+            }
             EndEnemyTurn();
         }
         else
@@ -75,21 +115,25 @@ public class GameManager : MonoBehaviour
             if (attack == 1)
             {
                 p.AttackOne();
-                dialog.text = "Player has used Waifu Giggle on the enemy.";
+                dialog.text = "Bombshell Waifu has used Waifu Giggle on the enemy.";
                 yield return new WaitForSeconds(2.0f);
+                Instantiate(playerAttackSound);
                 EndPlayerTurn();
             }
             else if (attack == 2)
             {
-                p.AttackTwo();
-                dialog.text = "Player has used UwU on the enemy.";
+                p.SetAttackModifier(0.15f);
+                dialog.text = "Bombshell Waifu has used UwU and increased her damage!";
+                Instantiate(buffSound);
                 yield return new WaitForSeconds(2.0f);
                 EndPlayerTurn();
             }
             else
             {
-                p.AttackThree();
-                dialog.text = "Player has used Bunny Nuzzle on the enemy.";
+                invincible = true;
+                invincibilityUsed = true;
+                dialog.text = "Bombshell Waifu has used Bunny Nuzzle and is now invincible!";
+                Instantiate(invincibleSound);
                 yield return new WaitForSeconds(2.0f);
                 EndPlayerTurn();
             }
@@ -100,7 +144,17 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            buttons[i].SetActive(true);
+            if (i < 2)
+            {
+                buttons[i].SetActive(true);
+            }
+            else
+            {
+                if (invincibilityUsed == false)
+                {
+                    buttons[i].SetActive(true);
+                }
+            }     
         }
     }
 
@@ -135,7 +189,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EndGame("Enemy has won!");
+            EndGame(false);
         }
     }
 
@@ -151,12 +205,53 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EndGame("Player has won!");
+            EndGame(true);
         }
     }
 
-    private void EndGame(string winner)
+    private void EndGame(bool playerWon)
     {
-        dialog.text = winner;
+        battleMusic.SetActive(false);
+
+        if (playerWon == true)
+        {
+            Instantiate(victoryMusic);
+            if (scene == 1)
+            {
+                dialog.text = "So is that “mount n’ dew” still in question?";
+            }
+            else if (scene == 2)
+            {
+                dialog.text = "Wow I ship you and I harder than my OTP!";
+            }
+            else
+            {
+                dialog.text = "How about me take a trip to my private island so I can see your private islands?";
+            }
+        }
+        else
+        {
+            Instantiate(lossMusic);
+            if (scene == 1)
+            {
+                dialog.text = "Darn! I just set up my Xbox";
+            }
+            else if (scene == 2)
+            {
+                dialog.text = "Wow, I was kinda hoping you would be my senpai though";
+            }
+            else
+            {
+                dialog.text = "Alright I uh...I lied...I don’t actually have my own jet...it’s my dad’s….I applaud you m’lady";
+            }
+        }
+
+        StartCoroutine(Endings());
+    }
+
+    private IEnumerator Endings()
+    {
+        yield return new WaitForSeconds(9.0f);
+        SceneManager.LoadScene("Overworld");
     }
 }
