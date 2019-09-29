@@ -433,10 +433,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 36
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -444,17 +444,19 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Credits_Placeholder
+  m_Text: 'Jonathan Fong, Programmer
 
-    Credits_Placeholder
+    Thana Sithisombath, Programmer
 
-    Credits_Placeholder
+    Kyle Townsend, Programmer
 
-    Credits_Placeholder
+    Benjamin Chavez, Sound Design
 
-    Credits_Placeholder
+    Astrid Smith, Character Artist
 
-    Credits_Placeholder'
+    Jennifer Schwart, Background Artist/Writer
+
+    Jay Bernstein, Music'
 --- !u!222 &370201440
 CanvasRenderer:
   m_ObjectHideFlags: 0

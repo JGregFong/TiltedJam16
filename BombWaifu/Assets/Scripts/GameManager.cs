@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         }
         else if (scene == 4)
         {
-            dialog.text = "";
+            dialog.text = "The darkness….it envelops me…I must use the bathroom";
         }
 
         yield return new WaitForSeconds(3.0f);
@@ -228,9 +228,13 @@ public class GameManager : MonoBehaviour
             {
                 dialog.text = "Wow I ship you and I harder than my OTP!";
             }
-            else
+            else if (scene == 3)
             {
                 dialog.text = "How about me take a trip to my private island so I can see your private islands?";
+            }
+            else if (scene == 4)
+            {
+                dialog.text = "Yes...yes….the gods of the moon said this was the prophecy…";
             }
         }
         else
@@ -244,9 +248,13 @@ public class GameManager : MonoBehaviour
             {
                 dialog.text = "Wow, I was kinda hoping you would be my senpai though";
             }
-            else
+            else if (scene == 3)
             {
                 dialog.text = "Alright I uh...I lied...I don’t actually have my own jet...it’s my dad’s….I applaud you m’lady";
+            }
+            else if (scene == 4)
+            {
+                dialog.text = "Ah, this will make the best of stories upon my Wattpad account";
             }
         }
 
