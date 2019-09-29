@@ -13,16 +13,16 @@ public class GameManager : MonoBehaviour
     private Fighter player;
     private Fighter enemy;
     public GameObject[] buttons = new GameObject[3];
+    public HealthBar playerHealthBar;
+    public HealthBar enemyHealthBar;
+    public Text dialog;
 
     private void Start()
     {
         player = new Player(playerHealth, playerAttackPower);
         enemy = new Enemy(enemyHealth, enemyAttackPower);
 
-        Debug.Log(enemy.GetType());
-
         int rand = Random.Range(0, 2);
-        Debug.Log(rand);
 
         if (rand == 0)
         {
@@ -44,18 +44,55 @@ public class GameManager : MonoBehaviour
 
         if (currentFighter is Enemy)
         {
-            Debug.Log("Enemy's turn.");
-            Enemy curEnemy = (Enemy) currentFighter;
+            StartCoroutine(DelayDialog(currentFighter, false, 0));
+            
+        }
+        else
+        {
+            dialog.text = "Player's turn.";
+            Player curPlayer = (Player) currentFighter;
+            curPlayer.SetEnemy(enemy);
+            DisplayButtons();
+        }
+    }
+
+    private IEnumerator DelayDialog(Fighter currentFighter, bool playerTurn, int attack)
+    {
+        if (playerTurn == false)
+        {
+            dialog.text = "Enemy's turn.";
+            yield return new WaitForSeconds(2.0f);
+            Enemy curEnemy = (Enemy)currentFighter;
             curEnemy.SetPlayer(player);
+            dialog.text = "Enemy attacks player.";
+            yield return new WaitForSeconds(2.0f);
             curEnemy.EnemyAttack();
             EndEnemyTurn();
         }
         else
         {
-            Debug.Log("Player's turn.");
-            Player curPlayer = (Player) currentFighter;
-            curPlayer.SetEnemy(enemy);
-            DisplayButtons();
+            Player p = (Player)currentFighter;
+            if (attack == 1)
+            {
+                p.AttackOne();
+                dialog.text = "Player has used Waifu Giggle on the enemy.";
+                yield return new WaitForSeconds(2.0f);
+                EndPlayerTurn();
+            }
+            else if (attack == 2)
+            {
+                p.AttackTwo();
+                dialog.text = "Player has used UwU on the enemy.";
+                yield return new WaitForSeconds(2.0f);
+                EndPlayerTurn();
+            }
+            else
+            {
+                p.AttackThree();
+                dialog.text = "Player has used Bunny Nuzzle on the enemy.";
+                yield return new WaitForSeconds(2.0f);
+                EndPlayerTurn();
+            }
         }
     }
 
@@ -70,27 +107,26 @@ public class GameManager : MonoBehaviour
     public void AttackOne()
     {
         Player p = (Player)player;
-        p.AttackOne();
-        EndPlayerTurn();
+        StartCoroutine(DelayDialog(p, true, 1));
     }
 
     public void AttackTwo()
     {
         Player p = (Player)player;
-        p.AttackTwo();
-        EndPlayerTurn();
+        StartCoroutine(DelayDialog(p, true, 2));
     }
 
     public void AttackThree()
     {
         Player p = (Player)player;
-        p.AttackThree();
-        EndPlayerTurn();
+        StartCoroutine(DelayDialog(p, true, 3));
     }
 
     private void EndEnemyTurn()
     {
         Player p = (Player)player;
+        playerHealthBar.SetPercentage(p.GetHealth(), p.GetMaxHealth());
+
         if (p.GetHealth() > 0)
         {
             turnOrder.RemoveAt(0);
@@ -99,13 +135,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EndGame(p.GetHealth());
+            EndGame("Enemy has won!");
         }
     }
 
     private void EndPlayerTurn()
     {
         Enemy e = (Enemy)enemy;
+        enemyHealthBar.SetPercentage(e.GetHealth(), e.GetMaxHealth());
         if (e.GetHealth() > 0)
         {
             turnOrder.RemoveAt(0);
@@ -114,12 +151,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EndGame(e.GetHealth());
+            EndGame("Player has won!");
         }
     }
 
-    private void EndGame(float endHealth)
+    private void EndGame(string winner)
     {
-        Debug.Log(endHealth);
+        dialog.text = winner;
     }
 }

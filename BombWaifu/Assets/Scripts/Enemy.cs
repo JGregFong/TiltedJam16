@@ -52,6 +52,11 @@ public class Enemy : Fighter
     }
 
     //Getters
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
     public float GetHealth()
     {
         return health;

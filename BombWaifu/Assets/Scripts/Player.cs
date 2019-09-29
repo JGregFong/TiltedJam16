@@ -34,6 +34,11 @@ public class Player : Fighter
     }
 
     //Getters
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
     public float GetHealth()
     {
         return health;
