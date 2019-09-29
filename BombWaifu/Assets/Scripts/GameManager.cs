@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
         {
             dialog.text = "Baby, you’d look real good in my jet right about now.";
         }
+        else if (scene == 4)
+        {
+            dialog.text = "";
+        }
 
         yield return new WaitForSeconds(3.0f);
         StartGame();

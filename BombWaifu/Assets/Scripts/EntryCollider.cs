@@ -6,13 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class EntryCollider : MonoBehaviour
 {
-    
+
+    public string enemyEncounter;
+    private void Start()
+    {
+        
+    }
+
     private void OnTriggerEnter2D(Collider2D col){
-        if(col.gameObject.tag == "Player"){
-            SceneManager.LoadScene("SampleScene");
-            Debug.Log("Entered collider.");
-        }
-       
+
+        SceneManager.LoadScene(enemyEncounter);
         
     }
 }

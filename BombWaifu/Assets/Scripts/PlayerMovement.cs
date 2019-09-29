@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector2 move = new Vector2(horizontal,vertical);
-        transform.Translate(move* Time.deltaTime);
+        transform.Translate(move* Time.deltaTime *speed);
 
         if(Input.GetKeyDown(KeyCode.P)){
             SceneManager.LoadScene("SampleScene");
