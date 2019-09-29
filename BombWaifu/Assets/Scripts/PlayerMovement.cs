@@ -8,11 +8,11 @@ public class PlayerMovement : MonoBehaviour
 {
     // Start is called before the first frame update
     
-    Rigidbody2D rigidbody;
-    public float speed = 5;
+    Rigidbody2D rigidB;
+    public float speed =10;
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rigidB = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -21,13 +21,14 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector2 move = new Vector2(horizontal,vertical);
-        rigidbody.AddForce(move *speed);
+        transform.Translate(move* Time.deltaTime);
+
+        if(Input.GetKeyDown(KeyCode.P)){
+            SceneManager.LoadScene("SampleScene");
+        }
 
     }
 
-    void TriggerOnEnter2D(Collider2D enemy){
-        //SceneManager.LoadScene(battleOne);
-    }
 
 
 }
